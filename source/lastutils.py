@@ -2,7 +2,7 @@ import typer
 from typing_extensions import Annotated
 from module.spotlight import get_spotlight
 
-app = typer.Typer(help="Ultimate Windows Utilities v1.0")
+app = typer.Typer(help="LastUtils v1.0")
 
 
 @app.command()
@@ -22,8 +22,11 @@ def spotlight(
 
 
 @app.command()
-def hello(name: str):
-    print(f"Hello {name}")
+def info():
+    """
+    Show LastUtils information
+    """
+    print(f"Hello")
 
 
 if __name__ == "__main__":
