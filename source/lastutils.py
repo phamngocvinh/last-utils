@@ -1,9 +1,11 @@
 import typer
+import sub_rename
 from typing_extensions import Annotated
 from module.spotlight import get_spotlight
 from module.checksum import run_checksum
 
 app = typer.Typer(help="LastUtils v1.0")
+app.add_typer(sub_rename.app, name="rename")
 
 
 @app.command()
