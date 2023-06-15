@@ -43,20 +43,27 @@ def get_spotlight(ext: str = "png", output_path: str = "", prefix: str = "", is_
         if os.path.isfile(src_file):
             shutil.copy(src_file, dst_file)
 
+    # get the list of files in the output directory
+    src_files = os.listdir(output_path)
+
     # delete image with resolution lower than 1080
-    for file_name in output_path:
+    for file_name in src_files:
         file = os.path.join(output_path, file_name)
 
         if os.path.isfile(file):
-            im = Image.open(file)
-            width, height = im.size
+            try:
+                im = Image.open(file)
+                width, height = im.size
 
-            if is_include_phone:
-                if width != 1080 and height != 1080:
-                    os.remove(file)
-            else:
-                if width != 1080:
-                    os.remove(file)
+                if is_include_phone:
+                    if width != 1080 and height != 1080:
+                        os.remove(file)
+                else:
+                    if width != 1080:
+                        os.remove(file)
+            except IOError:
+                # remove invalid image file
+                os.remove(file)
 
     # if cannot get wallpaper, delete output folder and return error
     if len([name for name in os.listdir(output_path) if os.path.isfile(name)]) == 0:
@@ -66,3 +73,7 @@ def get_spotlight(ext: str = "png", output_path: str = "", prefix: str = "", is_
 
     print("Spotlight wallpaper created at " + output_path)
     return 0
+
+
+if __name__ == '__main__':
+    get_spotlight()
