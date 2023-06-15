@@ -1,8 +1,26 @@
 import typer
 from typing_extensions import Annotated
 from module.spotlight import get_spotlight
+from module.checksum import run_checksum
 
 app = typer.Typer(help="LastUtils v1.0")
+
+
+@app.command()
+def checksum(
+        path: Annotated[str, typer.Argument(help="Path of folder or file to process")],
+        algo: Annotated[str, typer.Option(
+            help="\bSpecify process algorithms. Separated by comma (,)\r\n"
+                 "\bAvailable algorithms:\r\n"
+                 "md5, sha256, sha512, sha3-256, sha3-512, blake2b, blake2s")] = "all",
+):
+    """
+    Generate and verify files hashes
+    """
+    return_code = run_checksum(path, algo)
+
+    if return_code != 0:
+        raise typer.Abort()
 
 
 @app.command()
@@ -22,9 +40,17 @@ def spotlight(
 
 
 @app.command()
+def update():
+    """
+    Check for new release
+    """
+    print(f"Checking...")
+
+
+@app.command()
 def info():
     """
-    Show LastUtils information
+    Show application information
     """
     print(f"Hello")
 
