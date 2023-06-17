@@ -3,9 +3,24 @@ import sub_rename
 from typing_extensions import Annotated
 from module.spotlight import get_spotlight
 from module.checksum import run_checksum
+from module.grep import grep
 
 app = typer.Typer(help="LastUtils v1.0")
 app.add_typer(sub_rename.app, name="rename")
+
+
+@app.command()
+def grep(
+        path: Annotated[str, typer.Argument(help="Search path", show_default=False)],
+        text: Annotated[str, typer.Argument(help="Search text", show_default=False)],
+):
+    """
+    Find text in Excel
+    """
+    return_code = grep(path, text)
+
+    if return_code != 0:
+        raise typer.Abort()
 
 
 @app.command()
