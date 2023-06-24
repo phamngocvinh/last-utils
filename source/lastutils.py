@@ -43,14 +43,14 @@ def checksum(
 @app.command()
 def spotlight(
         path: Annotated[str, typer.Option(show_default="current folder", help="Set output path", )] = "",
-        ext: Annotated[str, typer.Option(help="Set image extension")] = "png",
+        ext: Annotated[str, typer.Option(help="Set image extension")] = "jpg",
         prefix: Annotated[str, typer.Option(help="Set prefix for filename")] = "",
-        smartphone: Annotated[bool, typer.Option(help="Include vertical images for smartphone")] = False,
+        phone: Annotated[bool, typer.Option(help="Include vertical images for smartphone")] = False,
 ):
     """
     Get Lockscreen Spotlight Wallpaper
     """
-    return_code = get_spotlight(ext, path, prefix, smartphone)
+    return_code = get_spotlight(ext, path, prefix, phone)
 
     if return_code != 0:
         raise typer.Abort()
