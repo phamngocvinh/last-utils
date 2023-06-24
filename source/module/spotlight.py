@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 # Get Windows Lockscreen Spotlight Wallpaper
-def get_spotlight(ext: str = "png", output_path: str = "", prefix: str = "", is_include_phone: bool = False):
+def get_spotlight(ext: str = "jpg", output_path: str = "", prefix: str = "", is_include_phone: bool = False):
     # get windows version
     win_ver = sys.getwindowsversion()
     # check Windows version
@@ -54,19 +54,20 @@ def get_spotlight(ext: str = "png", output_path: str = "", prefix: str = "", is_
             try:
                 im = Image.open(file)
                 width, height = im.size
+                im.close()
 
                 if is_include_phone:
                     if width != 1080 and height != 1080:
                         os.remove(file)
                 else:
-                    if width != 1080:
+                    if height != 1080:
                         os.remove(file)
             except IOError:
                 # remove invalid image file
                 os.remove(file)
 
     # if cannot get wallpaper, delete output folder and return error
-    if len([name for name in os.listdir(output_path) if os.path.isfile(name)]) == 0:
+    if len(os.listdir(output_path)) == 0:
         os.rmdir(output_path)
         print("No spotlight wallpaper was found")
         return 1
